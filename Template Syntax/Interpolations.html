@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Interpolations</title>
+</head>
+<body>
+    <div id="app">
+        <div>Message: {{msg}}</div>
+        <div v-once>这个不会改变：{{msg}}</div>
+        <div v-html="rawHtml"></div>
+        <div v-bind:id="dynamicId"></div>
+        <button v-bind:disabled="isButtonDisabled">submit</button>
+        <div v-bind:id="'list-' + dynamicId">{{'reverse' + msg.split('').reverse() }}</div>
+    </div>
+    <script src="../vue.js"></script>
+    <script>
+        // 绑定的数据对象上的 `msg` 属性发生了改变，插值处的内容会更新
+        // 使用 `v-once` 指令，只会一次性插值
+        // 使用 `v-html` 指令，能将内容作为 HTML，但不能复合局部模板
+        // mustache 语法不能作用在 HTML 特性上，可以使用 `v-bind` 指令
+        // 对于所有的数据绑定，都提供了完全的 JavaScipt 表达式支持
+        // 每个绑定都只能包含单个表达式
+        let vm = new Vue({
+                    el: '#app',
+                    data: {
+                        msg: 'Interpolations',
+                        rawHtml: '<i>i</i>',
+                        dynamicId: 'id',
+                        isButtonDisabled: 'true'
+                    }
+                })
+    </script>
+</body>
+</html>

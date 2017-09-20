@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Directives</title>
+</head>
+<body>
+    <div id="app">
+        <p v-if="!seen">现在你看到我了</p>
+        <p v-bind:href="url"></p>
+        <a v-on:click="doSomething">click</a>
+    </div>
+
+    <script src="../vue.js"></script>
+    <script>
+        // 指令 (Directives) 是带有 `v-` 前缀的特殊属性，它的值是单个表达式
+        // 它的职责是当表达式的值改变时，将其产生的连带影响，响应式地作用于 DOM
+        // `v-if` 指令将根据表达式 `!seen` 的值来插入/移除 `<p>` 元素
+        // `v-bind` 指令响应式地更新 HTML 属性，将 href 属性 与 `url` 绑定
+        // `v-on` 指令，用于监听 DOM 事件
+        new Vue({
+            el: '#app',
+            data: {
+                seen: false,
+                url: ''
+            },
+            methods: {
+                doSomething: function() {
+                    alert('Do something')
+                }
+            }
+        })
+    </script>
+</body>
+</html>

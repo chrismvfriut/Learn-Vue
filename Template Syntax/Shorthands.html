@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Shorthands</title>
+</head>
+<body>
+    <div id="app">
+        <!-- v-bind 缩写 -->
+        <!-- 完整写法 -->
+        <a v-bind:href="url">click</a>
+
+        <!-- 缩写 -->
+        <a :href="url">click</a>
+
+        <!-- v-on 缩写 -->
+        <!-- 完整写法 -->
+        <a v-on:click="doSomething">click</a>
+        
+        <!-- 缩写 -->
+        <a @click="doSomething">click</a>
+    </div>
+    <script src="../vue.js"></script>
+    <script>
+        // 缩写能更便利
+        new Vue({
+            el: '#app',
+            data:{
+                msg: '缩写',
+                url: '#'
+            },
+            methods: {
+                doSomething: function () {
+                    alert(this.msg);
+                }
+            }
+        })
+    </script>
+</body>
+</html>
