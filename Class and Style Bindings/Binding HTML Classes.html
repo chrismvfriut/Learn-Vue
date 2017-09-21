@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Binding HTML Classes</title>
+    <style>
+        .active {
+            color: blue;
+        }
+
+        .text-danger {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+            <!-- class active 的更新取决于数据属性 `isActive` 是否为真 -->
+        <div v-bind:class="{active: isActive}">active</div>
+        <!-- 可以在对象中传入更多属性来动态切换多个 class -->
+        <div class="static" v-bind:class="{active: isActive, 'text-danger': hasError}">text</div>
+        
+    </div>
+
+    <!-- 直接绑定数据里的一个对象 -->
+    <div id="app-1">
+        <div v-bind:class="classObject"></div>
+    </div>
+    <script src="../vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                isActive: true,
+                hasError: false
+            }
+        })
+
+        new Vue({
+            el: '#app-1',
+            data: {
+                classObject: {
+                    active: true,
+                    'text-danger': true
+                }
+            }
+        })
+    </script>
+</body>
+</html>
