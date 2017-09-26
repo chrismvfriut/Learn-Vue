@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Binding Inline Styles</title>
+</head>
+<body>
+    <div id="app">
+        <!-- v-bind:style 的对象语法十分直观——看着非常像 CSS -->
+        <!-- 其实它是一个 JavaScript 对象 -->
+        <!-- CSS 属性名可以用驼峰式 (camelCase) 或 (配合引号的) 短横分隔命名 (kebab-case) -->
+        <!-- 对象语法 -->
+        <div :style="{color: activeColor, fontSize: fontSize + 'px'}">text</div>
+    </div>
+    
+    <div id="app-1">
+        <!-- 通过样式对象绑定，通常结合计算属性使用 -->
+        <div :style="styleObject"></div>
+    </div>
+
+    <!-- 可以使用数组语法，应用到同一个元素， -->
+    <!-- 当使用需要特定前缀的CSS属性时， Vue.js 会自动侦测，并添加相对应的前缀 -->
+    <div id="app-2">
+        <div :style="[baseStyles, overridingStyles]"></div>
+        <!-- 在 style 绑定中提供要给包含多个值的数组，常用于提供多个带前缀的值 -->
+        <!-- 如果浏览器支持不带浏览器前缀的 flexbox 渲染结果为 `display: flex` -->
+        <div :style="{display: ['-webkit-box', '-ms-flexbox','flex']}">
+
+        </div>
+    </div>
+    <script src="../vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                activeColor: 'red',
+                fontSize: 30
+            }
+        })
+
+        new Vue({
+            el: '#app-1',
+            data: {
+                styleObject: {
+                    color: 'red',
+                    fontSize: '13px'
+                }
+            }
+        })
+
+
+        new Vue({
+            el: '#app-2',
+            data: {
+                baseStyles: {
+                    color: 'red',
+                    fontSize: '14px'
+                },
+                overridingStyles: {
+                    fontWeight: 'bold',
+                    textIndent: '2em',
+                    transform: 'scale(1.2)'
+                }
+            }
+        })
+    </script>
+</body>
+</html>
