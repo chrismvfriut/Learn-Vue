@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>v-for with an Object</title>
+</head>
+<body>
+    <!-- 使用 `v-for` 通过一个对象的属性来迭代 -->
+    <div id="v-for-object">
+        <ul class="demo">
+            <li v-for="value in object">
+                {{value}}
+            </li>
+        </ul>
+
+        <!-- 提供二个参数作为键名 -->
+        <div v-for="(value, key) in object">
+            {{key}} : {{value}}
+        </div>
+
+        <!-- 提供第三个参数作为索引 -->
+        <div v-for="(value, key, index) in object">
+            {{index}}.{{key}}: {{value}}
+        </div>
+        
+    </div>
+    <script src="../vue.js"></script>
+    <script>
+        new Vue({
+            el: '#v-for-object',
+            data: {
+                object: {
+                    firstName: 'John',
+                    lastName: 'Doe',
+                    age: 30
+                }
+            }
+        })
+    </script>
+</body>
+</html>
