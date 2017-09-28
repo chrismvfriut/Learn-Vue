@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>v-for on a template</title>
+</head>
+<body>
+    <!-- 类似 `v-if` 也可以利用 `v-for` 的 `<template>` 渲染多个元素 -->
+    <ul id="app">
+        <template v-for="item in items">
+            <li>{{item.message}}</li>
+            <li class="divider"></li>
+        </template>
+    </ul>
+    <script src="../vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                items: [
+                    {message: 'Foo'},
+                    {message: 'Bar'}
+                ]
+            }
+        })
+    </script>
+</body>
+</html>

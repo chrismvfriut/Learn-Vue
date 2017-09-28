@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>v-for with v-if</title>
+</head>
+<body>
+    <!-- `v-for` 的优先级比 `v-if` 更高，`v-if` 将分别重复运行于每个 `v-for` 循环 -->
+    <div id="app">
+        <ul>
+            <li v-for="todo in todos" v-if="!todo.isComplete">
+                {{todo.title}}
+            </li>
+        </ul>
+        <!-- 如果寻妖跳过循环的执行，可以将 `v-if` 置于外层元素（或 `<tempalte>`）上 -->
+        <ul v-if="todo.length">
+            <li v-for="todo in todos">
+                {{ todo.title }}
+            </li>
+        </ul>
+        <p v-else> No todos left!</p>
+    </div>
+    <script src="../vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                todos: [
+                    {
+                        id: 1,
+                        title: 'Do the dishes',
+                        isComplete: true
+                    },
+                    {
+                        id: 2,
+                        title: 'Take out the trash',
+                        isComplete: false
+                    },
+                    {
+                        id: 3,
+                        title: 'Mow the lawn',
+                        isComplete: false
+                    }
+                ]
+            }
+        })
+    </script>
+</body>
+</html>

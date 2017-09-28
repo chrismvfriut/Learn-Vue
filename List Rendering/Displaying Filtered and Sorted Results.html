@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Displaying Filtered/Sorted Results</title>
+</head>
+<body>
+
+    <!-- 在不改变原始数据的情况下，通过计算属性可以过滤或排序数组 -->
+    <ul id="app">
+        <li v-for="n in evenNumbers">
+            {{ n }}
+        </li>
+        <li v-for="n in even(numbers)">
+            {{ n }}
+        </li>
+    </ul>
+
+
+    <!-- 在计算属性不适用的情况下，可以使用一个 `method` 方法 -->
+    
+    <script src="../vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                numbers: [1, 2, 3, 4, 5]
+            },
+            methods: {
+                even: function (numbers) {
+                    return numbers.filter(function(number){
+                        return number % 2 === 0
+                    })
+                }
+            },
+            computed: {
+                evenNumbers: function () {
+                    return this.numbers.filter(function (number) {
+                        return number % 2 === 0
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>
