@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Value Bindings</title>
+</head>
+<body>
+    <!-- 对于单选按钮，勾选框及选择列表选项，v-model 绑定的 value 通常是静态字符串 (对于勾选框是逻辑值) -->
+    <div id="app-0">
+        <!-- 当选中时， `picked` 为字符串 'a' -->
+        <input type="radio" v-model="picked" value="a">
+        <!-- `toggle` 为 true 或 false -->
+        <input type="checkbox" v-model="toggle">
+        <!-- 当选中时，`selected` 为字符串 'abc' -->
+        <select v-model="selected">
+            <option value="abc">ABC</option>
+        </select>
+    </div>
+    <div id="app-1">
+        <!-- 可以用 `v-bind` 实现将 value 绑定到 Vue 实例的一个动态属性上 -->
+        <input type="checkbox" v-model="toggle" v-bind:true-value="a" v-bind:false-value="b"> 
+        <!-- 单选按钮 -->
+        <input type="radio" v-model="pick" v-bind:value="a">
+        
+        <!-- 绑定 value 到 Vue 实例的一个动态属性上，这时可以用 v-bind 实现 -->
+        <select v-model="selected">
+            <!-- 内联对象字面量 -->
+            <option v-bind:value='{number: 123}'>A</option>
+        </select>
+    </div>
+    <script src="../vue.js"></script>
+    <script>
+        let vm = new Vue({
+                el: '#app-0',
+                data: {
+                    picked: false,
+                    toggle: false,
+                    selected: ''
+                }
+            })
+        let vm1 = new Vue({
+                el: '#app-1',
+                data: {
+                    toggle: '',
+                    pick: '',
+                    selected: '',
+                    a: 'aa',
+                    b: 'bb'
+                }
+        })
+    </script>
+</body>
+</html>
