@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Prop</title>
+</head>
+<body>
+    <div id="example">
+        <child message="hello"></child>
+        <child1 my-message="hello!"></child1>
+        <input v-model= 'parentMsg'>
+        <child1 v-bind:my-message="parentMsg"></child1>
+        <todo-item v-bind="todo"></todo-item>
+    </div>
+    <script src="../vue.js"></script>
+    <script>
+    // 父组件的数据需要通过 `prop` 才能下发到子组件中。 
+    // 子组件要显式地用 `props` 选项声明它预期的数据      
+        Vue.component('child', {
+            props: ['message'],
+            template: '<span>{{message}}</span>'
+        })
+
+        // 当使用的不是字符串模板时，camelCase (驼峰式命名) 的 prop 需要转换为相对应的 kebab-case (短横线分隔式命名)
+        Vue.component('child1', {
+            props: ['myMessage'],
+            template: '<span>{{myMessage}}</span>'
+        })
+
+
+        Vue.component('todo-item', {
+            props: ['todo'],
+            template: '<div>{{todo}}</div>'
+        })
+
+        new  Vue({
+            el: '#example',
+            data: {
+                parentMsg: '',
+                todo: {
+                    text: 'Learn Vue',
+                    isComplete: false
+                }
+            }
+        })
+
+    </script>
+</body>
+</html>

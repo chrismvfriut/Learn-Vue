@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Using Components</title>
+</head>
+<body>
+    <div id="example">
+        <my-component></my-component>
+    </div>
+    <div id="example-1">
+        <my-component></my-component>
+    </div>
+
+    <table id="example-2">
+        <tr is="my-row"></tr>
+    </table>
+
+    <div id="example-3">
+        <simple-counter></simple-counter>
+        <simple-counter></simple-counter>
+        <simple-counter></simple-counter>
+    </div>
+
+    <div id="example-4">
+        <simple-counter1></simple-counter1>
+        <simple-counter1></simple-counter1>
+        <simple-counter1></simple-counter1>
+    </div>
+    <script src="../vue.js"></script>
+    <script>
+        // 全局注册
+        Vue.component('my-component', {
+            template: '<div>A custom component</div>'
+        })
+
+        new Vue({
+            el: '#example'
+            // options
+        })
+
+        // 局部注册仅在作用域中的可用
+        var child = {
+            template: '<div>A custom component!</div>'
+        }
+
+        new Vue({
+            el: '#example-1',
+            components: {
+                'my-component': child
+            }
+        })
+
+        // DOM 模板解析注意事项
+        // 当使用 `el` 选项来把 Vue 实例挂载在已有内容的元素上，就会受到 HTML 本身的一些限制，可以使用 `is`
+        //如果使用字符串模板，则没问题
+        new Vue({
+            el: '#example-2',
+            components: {
+                'my-row': child
+            }
+        })
+
+
+        //data 必须是函数
+        var data = {counter: 0}
+
+        Vue.component('simple-counter', {
+            template: '<button @click="counter += 1">{{counter}}</button>',
+            data: function () {
+                return data
+            }
+        })
+
+        new Vue({
+            el: '#example-3'
+        })
+
+        // 使用全新的数据对象来修复这个问题,每个都相互独立，不再引用同一个对象
+
+        Vue.component('simple-counter1', {
+            template: '<button @click="counter += 1">{{counter}}</button>',
+            data: function () {
+                return {
+                    counter: 0
+                }
+            }
+        })
+
+        new Vue({
+            el: '#example-4'
+        })
+
+        // prop 向下传递，事件向上传递
+    </script>
+</body>
+</html>
