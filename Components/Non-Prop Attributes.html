@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Non-Prop Attributes</title>
+</head>
+<body>
+    <div id="app">
+        <bs-date-input data-3d-date-picker="true" class="date-picker-theme-dark"></bs-date-input>
+    </div>
+    <script src="../vue.js"></script>
+    <script>
+        // 所谓非 prop 特性，就是指它可以直接传入组件，而不需要定义相应的 prop。
+        // 尽管为组件定义明确的 prop 是推荐的传参方式，组件的作者却并不总能预见到组件被使用的场景。所以，组件可以接收任意传入的特性，这些特性都会被添加到组件的根元素上。
+        // 例如，假设我们使用了第三方组件 bs-date-input，它包含一个 Bootstrap 插件，该插件需要在 input 上添加 data-3d-date-picker 这个特性。这时可以把特性直接添加到组件上 (不需要事先定义 prop)
+       Vue.component('bs-date-input',{
+            template: '<input type="date" class="form-control">'
+       })
+        new Vue({
+            el: '#app'
+        })
+    </script>
+</body>
+</html>
