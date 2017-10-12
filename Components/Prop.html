@@ -13,6 +13,13 @@
         <input v-model= 'parentMsg'>
         <child1 v-bind:my-message="parentMsg"></child1>
         <todo-item v-bind="todo"></todo-item>
+        <comp v-bind:some-prop = 'counter'></comp>
+        <comp some-prop = '1'></comp>
+        <!-- HTML 属性并不区分大小写，所以要用连接符连接 -->
+        <my-component1 v-bind:initial-counter="counter"></my-component1>
+        <comp1 v-bind:size = 'size'></comp1>
+        <comp2 v-bind:initial-list = "list"></comp2>
+        <comp3 v-bind:prop-f="123" ></comp3>
     </div>
     <script src="../vue.js"></script>
     <script>
@@ -35,17 +42,120 @@
             template: '<div>{{todo}}</div>'
         })
 
-        new  Vue({
+
+        //字面量语法 vs 动态语法
+        // 字面量语法传递的值是字符串，使用 `v-bind` 则可以当作 JavaScript 表达式进行计算
+        Vue.component('comp', {
+            props: ['someProp'],
+            template: '<div>{{typeof someProp + someProp }}</div>',
+            data: function (){
+                return {
+                    counter: this.someProp
+                }
+            }
+        })
+
+
+
+        // 单向数据流
+        //当父组件的属性变化时，将传导给子组件，但是反过来不会
+        //不应该在子组件内部改变 prop
+        //有两种情况，我们会想修改 prop 中的数据
+        //Prop 作为初始值传入后，子组件想把它当作局部数据来用
+        //Prop 作为原始数据传入，由子组件处理成其它数据输出
+        Vue.component('my-component1',{
+            template: '<button @click="counter += 1" >{{counter}}</button>',
+            props: ['initialCounter'],
+            data: function () {
+                console.log(this)
+                return {counter: this.initialCounter}
+            }
+        })
+
+
+
+        Vue.component('comp1', {
+            template: '<div>{{normalizedSize}}</div>',
+            props: ['size'],
+            computed: {
+                normalizedSize: function () {
+                    return this.size.trim().toLowerCase()
+                }
+            }
+        })
+
+
+        // 注意在 JavaScript 中对象和数组是引用类型，指向同一个内存空间，如果 prop 是一个对象或数组，在子组件内部改变它会影响父组件的状态。
+        Vue.component('comp2', {
+            template: '<ul><li v-for = "item in list">{{item}}</li></ul>',
+            props: ['initialList'],
+            data: function () {
+                return {
+                    list: this.initialList.push(4)
+                }
+            }
+        })
+
+        // Prop 验证
+        // 可以为组件的 prop 指定验证规则。如果传入的数据不符合要求，Vue 会发出警告。这对于开发给他人使用的组件非常有用。
+        // 要指定验证规则，需要用对象的形式来定义 prop，而不能用字符串数组
+        // type 也可以是一个自定义构造器函数，使用 instanceof 检测
+        // 注意 prop 会在组件实例创建之前进行校验，所以在 default 或 validator 函数里，诸如 data、computed 或 methods 等实例属性还无法使用。
+        Vue.component('comp3', {
+            template: '<div><span>{{propA}}</span><span>{{propB}}</span><span>{{propC}}</span><span>{{propD}}</span><span>{{propE}}</span><span>{{propF}}</span><span>{{propG}}</span></div>',
+            props: {
+                // 基础类型，null 为任意类型
+                propA: Number,
+                // 多种类型
+                propB: [String, Number],
+                // 必传且是字符串
+                propC: {
+                    type: String,
+                    // required: true
+                },
+                // 数值和默认值
+                propD: {
+                    type: Number,
+                    default: 100
+                },
+                // 数组/对象的默认值应当由一个工厂函数返回
+                propE: {
+                    type: Object,
+                    default: function () {
+                        return {message: 'hello'}
+                    }
+                },
+                // 自定义验证函数
+                propF: {
+                    validator: function (value) {
+                        console.log(this)
+                        return value > 10
+                    }
+                }
+            },
+            data: function () {
+                return {
+                    propG: this.propB + ':number'
+                }
+            }
+        })
+
+        
+
+
+        let vm = new Vue({
             el: '#example',
             data: {
                 parentMsg: '',
+                counter: 1,
+                size: 'xxxXXXXL',
+                list: [1,2,3],
                 todo: {
                     text: 'Learn Vue',
                     isComplete: false
                 }
             }
         })
-
     </script>
 </body>
 </html>
