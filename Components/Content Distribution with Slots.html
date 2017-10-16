@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Content Distribution with Slots</title>
+</head>
+<body>
+    <div id="app">
+        <div is="parent-com">
+
+        </div>
+    </div>
+    <script src="../vue.js"></script>
+    <script>
+
+        Vue.component('child-com', {
+            template: `
+                <div>
+                    <h2>子组件标题</h2>
+                    <slot>
+                        <p>只有没有可分发内容时才显示</p>
+                    </slot>
+                </div>`
+        })
+
+        Vue.component('parent-com', {
+            template: `
+                <div>
+                    <h1>我是父组件的标题</h1>
+                    <child-com>
+                        <p>这是一些初始内容</p>
+                        <p>这是更多的初始内容</p>
+                    </child-com>
+                </div>`
+        })
+
+
+        let vm = new Vue({
+            el: '#app'
+        })
+    </script>
+</body>
+</html>

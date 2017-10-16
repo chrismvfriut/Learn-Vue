@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Authoring Reusable Components</title>
+</head>
+<body>
+    <div id="app">
+        <parent-com></parent-com>
+    </div>
+    <script src="../vue.js"></script>
+    <script>
+        Vue.component('child-com',{
+            template: `
+                <div>
+                    <button @click="click1">{{foo}}</button>
+                    <button @click="click2">{{bar}}</button>
+                    <slot name="icon"></slot>
+                    <slot name="main-text"></slot>
+                </div>
+            `,
+            props: ['foo', 'bar'],
+            methods: {
+                click1: function () {
+                    this.$emit('event1')
+                },
+                click2: function () {
+                    this.$emit('event2')
+                }
+            }
+        })
+
+        Vue.component('parent-com', {
+            template: `
+                <child-com :foo = "baz" :bar="qux" @event1 = "doThis" @event2 = "doThat">
+                    <img slot="icon" src="//www.google.com.hk/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png">
+                    <p slot="main-text">Hello!</p>
+                </child-com>
+            `,
+            data: () => {
+                return {
+                    baz: 'click1',
+                    qux: 'click2'
+                }
+            },
+            methods: {
+                doThis: function () {
+                    this.baz = 'click3'
+                }, 
+                doThat: function () {
+                    console.log(this.qux)
+                    this.qux = 'click4'
+                }, 
+
+            }
+        })
+
+        let vm = new Vue({
+            el: '#app'
+
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Scoped Slots</title>
+</head>
+<body>
+
+    <div id="app">
+        <parent></parent>
+        <list-parent></list-parent>
+    </div>
+
+    <script src="../vue.js"></script>
+    <script>
+        Vue.component('child', {
+            template: `
+                <div class="child">
+                    <slot name="content" text="hello from child">
+                    </slot>
+                </div>
+            `
+        })
+
+        Vue.component('parent', {
+            template: `
+                <div class="parent">
+                    <child>
+                        <template scope="props" slot="content">
+                            <span> hello from parent</span>
+                            <span>{{props.text}}</span>
+                        </template>
+                    </child>
+                </div>
+            `
+        })
+
+        Vue.component('my-awesome-list', {
+            template: `
+                <ul>
+                    <slot name="item"
+                        v-for="item in items"
+                        :text="item.text">
+                    </slot>
+                </ul>
+            `,
+            data: () => {
+                return {
+                    items: [
+                        {text: '1'},
+                        {text: '2'},
+                        {text: '3'},
+                        {text: '4'},
+                    ]
+                }
+            }
+        })
+
+
+        Vue.component('list-parent', {
+            template: `
+                <my-awesome-list>
+                    <template slot="item" scope="props">
+                        <li class="my-fancy-item">{{props.text}}</li>
+                    </template>
+                </my-awesome-list>
+            `
+        })
+
+        let vm = new Vue({
+            el: '#app'
+        })
+    </script>
+</body>
+</html>

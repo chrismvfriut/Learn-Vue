@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dynamic Components</title>
+</head>
+<body>
+    <div id="app">
+        <keep-alive>
+            <component :is="currentView"></component>
+        </keep-alive>
+        <button @click="changeView">change View</button>
+    </div>
+    
+
+    <script src="../vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                currentView: 'home',
+                prevView: ''
+            },
+            components: {
+                home: {
+                    template: `<div>Home</div>`
+                },
+                posts: {
+                    template: `<div>posts</div>`
+                },
+                archive:{
+                    template: `<div>archive</div>`
+                }
+            },
+            methods: {
+                changeView: function () {
+                    for ( var item in this.$options.components) {
+                        if (this.currentView !== item && this.prevView !== item) {
+                            this.prevView = this.currentView
+                            this.currentView = item
+                            break
+                        }
+                    }
+                }
+            }
+        })
+
+
+    </script>
+</body>
+</html>

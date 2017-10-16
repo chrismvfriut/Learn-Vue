@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Non Parent-Child Communication</title>
+</head>
+<body>
+    <div id="app">
+        <com-a></com-a>
+        <com-b></com-b>
+    </div>
+    <script src="../vue.js"></script>
+    <script>
+        // 非父子关系的两个组件之间也需要通信。在简单的场景下，可以使用一个空的 Vue 实例作为事件总线
+        
+        let bus = new Vue()
+
+        Vue.component('com-a', {
+            template: '<button @click="emit">Click</button>',
+            methods: {
+                emit: function() {
+                    bus.$emit('com-a-click')
+                }
+            }
+        })
+
+        Vue.component('com-b', {
+            template:'<div>Random Number:{{number}}</div>',
+            created() {
+                bus.$on('com-a-click', () => {
+                    this.number = Math.random() * 100
+                })
+            },
+            data: () => {return {
+                number: ''
+            }}
+        })
+
+        let vm = new Vue({
+            el: '#app'
+        })
+    </script>
+</body>
+</html>
