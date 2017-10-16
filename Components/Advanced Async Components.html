@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Advanced Async Components</title>
+</head>
+<body>
+    
+    <script src="../vue.js"></script>
+    <script>
+        // 当一个异步组件被作为 vue-router 的路由组件使用时，这些高级选项都是无效的
+        const AsyncComp = () => ({
+            // 需要加载的组件。应当是一个 Promise
+            component: import('./MyComp.vue'),
+            // 加载中应当渲染的组件
+            loading: LoadingComp,
+            // 出错时渲染的组件
+            error: ErrorComp,
+            // 渲染加载中组件前的等待时间。默认：200ms。
+            delay: 200,
+            // 最长等待时间。超出此时间则渲染错误组件。默认：Infinity
+            timeout: 3000
+        })
+    </script>
+</body>
+</html>

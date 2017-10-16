@@ -8,13 +8,24 @@
 </head>
 <body>
     <div id="app">
-
+        <async-example></async-example>
     </div>
 
     <script src="../vue.js"></script>
     <script>
+        // 工厂函数接收一个 resolve 回调，在收到从服务器下载的组件定义时调用。
+        // 也可以调用 reject(reason) 指示加载失败。这里使用 setTimeout 只是
+        // 为了演示，实际上如何获取组件完全由你决定。
         Vue.component('async-example', function(resolve, reject) {
-            setTimeout( ())
+            setTimeout(function(){
+                resolve({
+                    template: '<div>I am async!</div>'
+                })
+            }, 1000)
+        })
+
+        let vm = new Vue({
+            el: '#app'
         })
     </script>
 </body>
