@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Transitioning Single Elements/Components</title>
+    <style>
+        .fade-enter-active,
+        .fade-leave-active {
+            transition: opacity .5s
+        }
+        .fade-enter, .fade-leave-to {
+            opacity: 0
+        }
+
+
+        /* 设置不同的进入和离开动画 */
+        /* 设置持续时间和动画函数 */
+        .slide-fade-enter {
+            transform: translateX(100px);
+        }
+
+        .slide-fade-enter-active {
+            transition: all 10s ease
+        }
+
+        .slide-fade-enter-to {
+            transform: translateX(200px);
+        }
+
+        .slide-fade-leave {
+            transform: translateX(0px);
+        }
+
+
+        .slide-fade-leave-active {
+            transition: all 5s cubic-bezier(0.075, 0.82, 0.165, 1)
+        }
+
+        .slide-fade-leave-to {
+            transform: translateX(400px);
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button @click="show = !show">
+            Toggle
+        </button>
+        <transition name="slide-fade">
+            <p v-if="show">hello</p>
+        </transition>
+    </div>
+    <script src="../vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                show: true
+            }
+        })
+    </script>
+</body>
+</html>
